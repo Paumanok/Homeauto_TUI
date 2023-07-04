@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"time"
-	//"math/rand"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	zone "github.com/lrstanley/bubblezone"
@@ -23,14 +22,9 @@ type homepage struct {
 	client *client.Client
 }
 
-// A message used to indicate that activity has occurred. In the real world (for
-// example, chat) this would contain actual data.
+// A message used to indicate that activity has occurred. 
 type responseMsg struct{}
 
-// Simulate a process that sends events at an irregular interval in real time.
-// In this case, we'll send events on the channel at a random interval between
-// 100 to 1000 milliseconds. As a command, Bubble Tea will run this
-// asynchronously.
 func listenForActivity(sub chan struct{}) tea.Cmd {
 	client := &client.Client {
 		Url: "192.168.0.151",
@@ -64,38 +58,11 @@ func formatItem(device models.Device, measurement models.Measurement) string {
 }
 
 
-//func waitForUpdate(h *homepage) tea.Cmd {
-//	return func() tea.Msg {
-//		for {
-//			syncTime := h.client.GetSyncInt()
-//			fmt.Println("starting sleep")
-//			time.Sleep(time.Second * time.Duration(syncTime))
-//			h.populateItems()
-//			fmt.Println("populated")
-//			h.sub <- "new"
-//		}
-//	}
-//}
-//
-//func respondToUpdate(h *homepage) tea.Cmd {
-//	return func() tea.Msg {
-//		return <-h.sub
-//	}
-//}
 
-//trying to do this here https://github.com/charmbracelet/bubbletea/blob/master/examples/realtime/main.go
 func (h *homepage) populateItems() {
 	devs := h.client.GetDevices()
 	meas := h.client.GetLast()
 
-	//START FROM HERE
-	//we want to formwat a string 
-	//that can be passed as an "item"
-	//using the above data. 
-	//perhaps mapping devs to MAC and
-	//using the last measurements' MAC
-	//to sort things would be a good idea. 
-	//fmt.Println("populatin")	
 	devmap := make(map[string]models.Device)
 
 	for _, dev := range devs {
@@ -114,29 +81,19 @@ func (h *homepage) populateItems() {
 
 
 func (h homepage) Init() tea.Cmd {
-	//return tea.Batch (
-	//	listenForActivity(h.Sub),
-	//	waitForActivity(h.sub),
-	//)
 	return nil
 }
 
 func (h *homepage) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	//fmt.Println(h.items)
-	//fmt.Println("##### populating ###")
 	h.populateItems()
-	//fmt.Println(h.items)
-	//fmt.Println("update")
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		h.height = msg.Height
 		h.width = msg.Width
 	case responseMsg:
-		//fmt.Println("realtime")                  // record external activity
-		return h, nil //waitForActivity(h.Sub) // wait for next event
+		return h, nil
 	case tea.MouseMsg:
 		if msg.Type != tea.MouseLeft {
-			//fmt.Println("update2")
 			return h, nil
 		}
 
@@ -147,10 +104,6 @@ func (h *homepage) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				break
 			}
 		}
-//	case string:
-//		if msg == "new" {
-//			return h, respondToUpdate(&h)	
-//		}
 	}
 	return h, nil
 }
@@ -168,7 +121,6 @@ func (h homepage) View() string {
 	MaxHeight(h.height)
 
 	out := []string{}
-	//fmt.Println(h.items)
 	for _, item := range h.items{
 		out = append(out, zone.Mark(h.id+item, homepageStyle.Render(item)))
 	}

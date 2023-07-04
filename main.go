@@ -108,11 +108,10 @@ func main() {
 		Port: "8080",
 	}
 
-	fmt.Println("hello world")
-
 	fmt.Println(client.GetDevices())
 	fmt.Println(client.GetLast())
 	fmt.Println(client.GetSyncInt())
+
 	zone.NewGlobal()
 
 	m := &model{
