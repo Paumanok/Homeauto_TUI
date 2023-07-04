@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	//"reflect"
-	"datapaddock.lan/ht_client/models"
+	"datapaddock.lan/cli_client/models"
 )
 
 
@@ -57,6 +57,7 @@ func (c *Client) GetLast() []models.Measurement {
 }
 
 func (c *Client) GetSyncInt() int {
+	//fmt.Println("called")
 	ret := 0
 	url := c.formatUrl("/next")
 	resp, err:= http.Get(url)

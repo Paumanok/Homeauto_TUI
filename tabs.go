@@ -61,6 +61,13 @@ func (m tabs) Init() tea.Cmd {
 	return nil
 }
 
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b	
+}
+
 func (m tabs) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:

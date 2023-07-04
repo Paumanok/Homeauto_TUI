@@ -1,11 +1,11 @@
-module datapaddock.lan/ht_client
+module datapaddock.lan/cli_client
 
 go 1.20
 
 require (
 	github.com/charmbracelet/bubbletea v0.24.2
 	github.com/charmbracelet/lipgloss v0.7.1
-	github.com/lrstanley/bubblezone v0.0.0-20230627130846-debb06d9ae21
+	github.com/lrstanley/bubblezone v0.0.0-20230702130640-6c4be164c671
 )
 
 require (
